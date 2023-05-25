@@ -4,7 +4,7 @@
 ## Instructions to Play
 - Requires Git and a C++ Compiler installed
 
-```
+```bash
 # In a terminal of your choice
 
 git clone https://github.com/GamerCoder215/Terminal-Miner
