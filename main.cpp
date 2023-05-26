@@ -36,7 +36,7 @@ int keypress() {
 // Start Game
 void startGame() {
 	bool gameStopped = false;
-	while (gameStopped == false) {
+	while (!gameStopped) {
 	string command;
 	cin >> command;
 	// Commands
