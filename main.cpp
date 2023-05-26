@@ -22,6 +22,7 @@ int quartz;
 int diamond;
 int emerald;
 
+int prestige;
 double balance;
 
 string version = "v2.0.0";
@@ -52,12 +53,14 @@ void startGame() {
             if (min > max) min = max - 4;
             int mine = (rand() % (max - min) + 1) + min;
 
-            stone += ceil(mine / 3);
-            coal += ceil(mine / 16);
-            gold += ceil(mine / 32);
-            ruby += ceil(mine / 52);
-            quartz += ceil(mine / 76);
-            diamond += ceil(mine / 104);
+            stone += ceil(mine / 3) * std::max(prestige, 1);
+            coal += ceil(mine / 16) * std::max(prestige, 1);
+            gold += ceil(mine / 32) * std::max(prestige, 1);
+            ruby += ceil(mine / 52) * std::max(prestige, 1);
+            quartz += ceil(mine / 76) * std::max(prestige, 1);
+            diamond += ceil(mine / 104) * std::max(prestige, 1);
+            emerald += ceil(mine / 225) * std::max(prestige, 1);
+
             std::cout << "\nTotal Mined: \n\x1b[32m" << stone << "x\x1b[0m Stones\n\x1b[32m" << coal << "x\x1b[0m Coal Pieces\n\x1b[32m" << gold << "x\x1b[0m Gold Pieces\n\x1b[32m" << ruby << "x\x1b[0m Rubies\n\x1b[32m" << quartz << "x\x1b[0m Quartz Pieces\n\x1b[32m" << diamond << "x\x1b[0m Diamond Pieces\n\x1b[32m" << emerald << "x\x1b[0m Emeralds\n";
         } else if (command == "-sell") {
             set<double> added;
@@ -86,7 +89,7 @@ void startGame() {
         } else if (command == "-balance")
             std::cout << "\nBalance for \x1b[31m" << username << "\x1b[0m is \x1b[32m$" << floor(balance) << "\x1b[0m.\n";
         else if (command == "-shop")
-            std::cout << "\n\x1b[4mShop\x1b[0m\n-upgrade —— Buy an upgrade to increase your level.\n";
+            std::cout << "\n\x1b[4mShop\x1b[0m\n-upgrade —— Buy an upgrade to increase your level.\n-prestige —— Purchase a prestige level.\n";
         else if (command == "-upgrade") {
             int requiredCost = level * 50;
             if (balance < requiredCost) {
@@ -95,6 +98,18 @@ void startGame() {
                 level++;
                 balance -= requiredCost;
                 std::cout << "\nUpgraded to level \x1b[32m" << level << "\x1b[0m!\nYou have \x1b[32m" << balance << "$\x1b[0m.\n";
+            }
+        } else if (command == "level")
+            std::cout << "\nAt Level \x1b[33m" << level << "\x1b[0m and at prestige\x1b[33m" << prestige << "\x1b[0m\n"; 
+        else if (command == "-prestige") {
+            int requiredCost = 10000 + (pow(prestige, 2) * 1000);
+                if (balance < requiredCost) {
+                std::cout << "\nYou need \x1b[31m" << (requiredCost - balance) << "$\x1b[0m more to prestige!\nYou have " << "\x1b[32m$" << balance << "\n\x1b[0m";
+            } else {
+                prestige++;
+                level = balance = 0;
+                stone = coal = gold = ruby = quartz = diamond = emerald = 0;
+                std::cout << "\nPrestiged to level \x1b[32m" << prestige << "\x1b[0m!\nYour level, balance, and mining has been reset, and you have \x1b[32m" << balance << "$\x1b[0m.\n";
             }
         } else if (command == "-load") {
             string filename;
