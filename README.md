@@ -13,4 +13,7 @@ cd Terminal-Miner
 # Example Compiler: g++ (GNU C++ Compiler, Preinstalled on most Linux Distros)
 g++ -o main main.cpp
 ./main
+
+# Alternatively, you can use the Makefile
+make run
 ```
